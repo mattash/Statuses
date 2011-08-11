@@ -15,9 +15,7 @@ class facebook_status_views_handler_filter_autotype extends views_handler_filter
     $recipient = $context['handler']->find_recipient();
     $recipient_id = $context['handler']->recipient_id($recipient);
     $this->ensure_my_table();
-    $this->query->add_where($this->options['group'], db_and()
-      ->condition("{$this->table_alias}.recipient", $recipient_id)
-      ->condition("{$this->table_alias}.type", $type)
-    );
+    $query = "{$this->table_alias}.recipient = %d AND {$this->table_alias}.type = '%s'";
+    $this->query->add_where($this->options['group'], $query, $recipient_id, $type);
   }
 }
